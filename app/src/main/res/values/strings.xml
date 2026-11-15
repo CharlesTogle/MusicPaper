@@ -13,7 +13,6 @@
     <string name="toast_lock_reset">Lock screen set to default</string>
     <string name="toast_lock_reset_failed">Could not change the lock screen</string>
 
-
     <!-- Default and home wallpapers -->
     <string name="toast_no_image_picker">No image picker found</string>
     <string name="toast_image_unreadable">Couldn\'t read that image</string>
@@ -50,4 +49,49 @@
     <!-- Style -->
     <string name="upscale_hint_advanced">AI upscaling on your phone, sharper covers. Uses more battery; the sharp version appears a few seconds after the song starts.</string>
     <string name="upscale_hint_simple">Fast, smooth enlarging. Light on battery.</string>
+    <!-- Shown on the layout previews when nothing is playing. -->
+    <string name="sample_title">Song title</string>
+    <string name="sample_artist">Artist</string>
+
+    <!-- Main screen layout -->
+    <string name="tagline">The cover of what you\'re playing, on your lock screen</string>
+    <string name="now_playing_label">Now playing</string>
+    <string name="cd_album_cover">Album cover</string>
+    <string name="action_apply_now">Apply now</string>
+    <string name="action_use_default">Use default</string>
+    <string name="privacy_note">Reads only the apps you choose. No account, no analytics.</string>
+    <string name="section_setup">Setup</string>
+    <string name="row_notification_access">Notification access</string>
+    <string name="row_change_wallpaper">Change wallpaper</string>
+    <string name="row_run_in_background">Run in background</string>
+    <string name="action_allow">Allow</string>
+    <string name="row_autostart">Autostart</string>
+    <string name="autostart_hint">Xiaomi phones: turn on Autostart for MusicPaper.</string>
+    <string name="action_open">Open</string>
+    <string name="section_music_apps">Music apps</string>
+    <string name="music_apps_hint">Android gives notification access to the whole app, so MusicPaper ignores every app you don\'t tick. Local players appear here once they\'ve played something.</string>
+    <string name="section_wallpapers">Wallpapers</string>
+    <string name="cd_default_wallpaper">Default lock screen wallpaper</string>
+    <string name="label_lock_screen">Lock screen</string>
+    <string name="action_choose">Choose</string>
+    <string name="action_remove">Remove</string>
+    <string name="cd_home_wallpaper">Home screen wallpaper</string>
+    <string name="label_home_screen">Home screen</string>
+    <string name="section_style">Style</string>
+    <string name="row_layout">Layout</string>
+    <string name="layout_hint">How the cover sits on the lock screen. Previews are approximate.</string>
+    <string name="cd_layout_classic">Classic layout</string>
+    <string name="layout_classic">Classic</string>
+    <string name="cd_layout_square">Square cover on a blurred background</string>
+    <string name="layout_square">Square</string>
+    <string name="option_show_title">Show title</string>
+    <string name="option_show_artist">Show artist</string>
+    <string name="row_animated_covers">Animated covers</string>
+    <string name="row_fill_screen">Fill the screen</string>
+    <string name="fill_screen_hint">Crops the sides of the cover</string>
+    <string name="row_upscaling">Upscaling</string>
+    <string name="upscale_simple">Simple</string>
+    <string name="upscale_advanced">Advanced</string>
+    <string name="row_revert">Default when music stops</string>
+    <string name="revert_hint">Show your default wallpaper again</string>
 </resources>

@@ -10,7 +10,9 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.format.DateFormat
+import androidx.core.graphics.withClip
 import java.util.Date
+import java.util.Locale
 
 /**
  * Draws a simple lock screen over a layout preview (clock, date and a media notification) so the previews
@@ -51,7 +53,8 @@ object LockScreenMock {
         canvas.drawText(clock, w / 2, h * CLOCK_BASELINE, text)
         text.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
         text.textSize = h * DATE_SIZE
-        canvas.drawText(DateFormat.format("EEE, MMM d", now).toString(), w / 2, h * DATE_BASELINE, text)
+        val datePattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEMMMd") // e.g. "Sat, Nov 15"
+        canvas.drawText(DateFormat.format(datePattern, now).toString(), w / 2, h * DATE_BASELINE, text)
 
         drawMediaCard(canvas, art, w, h)
     }
@@ -67,10 +70,9 @@ object LockScreenMock {
         val thumbSize = card.height() * 0.42f
         val thumb = RectF(card.left + pad, card.top + pad, card.left + pad + thumbSize, card.top + pad + thumbSize)
         val thumbPath = Path().apply { addRoundRect(thumb, thumbSize * 0.2f, thumbSize * 0.2f, Path.Direction.CW) }
-        canvas.save()
-        canvas.clipPath(thumbPath)
-        canvas.drawBitmap(art, squareCrop(art), thumb, Paint(Paint.FILTER_BITMAP_FLAG))
-        canvas.restore()
+        canvas.withClip(thumbPath) {
+            drawBitmap(art, squareCrop(art), thumb, Paint(Paint.FILTER_BITMAP_FLAG))
+        }
 
         val buttonRadius = thumbSize * 0.32f
         val cx = card.right - pad - buttonRadius
@@ -79,19 +81,23 @@ object LockScreenMock {
         val lineHeight = thumbSize * 0.22f
         val lineLeft = thumb.right + pad * 0.8f
         paint.color = Color.argb(230, 255, 255, 255)
-        val title = RectF(lineLeft, thumb.top + thumbSize * 0.12f, cx - buttonRadius - pad * 0.8f, thumb.top + thumbSize * 0.12f + lineHeight)
+        val titleTop = thumb.top + thumbSize * 0.12f
+        val title = RectF(lineLeft, titleTop, cx - buttonRadius - pad * 0.8f, titleTop + lineHeight)
         canvas.drawRoundRect(title, lineHeight / 2, lineHeight / 2, paint)
         paint.color = Color.argb(140, 255, 255, 255)
-        val artist = RectF(lineLeft, title.bottom + lineHeight * 0.9f, lineLeft + (title.width() * 0.6f), title.bottom + lineHeight * 1.9f)
+        val artistTop = title.bottom + lineHeight * 0.9f
+        val artist = RectF(lineLeft, artistTop, lineLeft + title.width() * 0.6f, artistTop + lineHeight)
         canvas.drawRoundRect(artist, lineHeight / 2, lineHeight / 2, paint)
 
         // Progress bar along the bottom.
         val barY = card.bottom - pad * 1.1f
         val barHeight = card.height() * 0.035f
         paint.color = Color.argb(90, 255, 255, 255)
-        canvas.drawRoundRect(card.left + pad, barY, card.right - pad, barY + barHeight, barHeight, barHeight, paint)
+        val bar = RectF(card.left + pad, barY, card.right - pad, barY + barHeight)
+        canvas.drawRoundRect(bar, barHeight, barHeight, paint)
         paint.color = Color.argb(230, 255, 255, 255)
-        canvas.drawRoundRect(card.left + pad, barY, card.left + pad + (card.width() - pad * 2) * 0.4f, barY + barHeight, barHeight, barHeight, paint)
+        bar.right = bar.left + bar.width() * 0.4f
+        canvas.drawRoundRect(bar, barHeight, barHeight, paint)
 
         // Play button.
         canvas.drawCircle(cx, cy, buttonRadius, paint)

@@ -45,6 +45,7 @@ kotlin {
 
 dependencies {
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.material)
     implementation(libs.litert)
     implementation(libs.litert.gpu)

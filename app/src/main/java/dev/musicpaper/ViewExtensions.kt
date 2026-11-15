@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.google.android.material.R.attr as MaterialAttr
 import com.google.android.material.color.MaterialColors
 
 internal fun Context.toast(@StringRes message: Int) {
@@ -32,6 +33,6 @@ internal fun ImageView.showPreview(bitmap: Bitmap?, @DrawableRes placeholder: In
     } else {
         scaleType = ImageView.ScaleType.CENTER
         setImageResource(placeholder)
-        imageTintList = themeTint(com.google.android.material.R.attr.colorOutline)
+        imageTintList = themeTint(MaterialAttr.colorOutline)
     }
 }

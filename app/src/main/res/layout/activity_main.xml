@@ -52,7 +52,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="The cover of what you're playing, on your lock screen"
+                    android:text="@string/tagline"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?attr/colorOnSurfaceVariant" />
             </LinearLayout>
@@ -105,7 +105,7 @@
                         android:paddingTop="4dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="4dp"
-                        android:text="Now playing"
+                        android:text="@string/now_playing_label"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorPrimary"
                         app:drawableStartCompat="@drawable/ic_music_note_outline"
@@ -123,7 +123,7 @@
                             android:layout_width="112dp"
                             android:layout_height="112dp"
                             android:background="?attr/colorSurfaceContainerLowest"
-                            android:contentDescription="Album cover"
+                            android:contentDescription="@string/cd_album_cover"
                             android:scaleType="centerCrop"
                             app:shapeAppearanceOverlay="@style/Shape.Cover" />
 
@@ -140,7 +140,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="2"
-                                android:text="Nothing playing"
+                                android:text="@string/now_playing_none"
                                 android:textAppearance="?attr/textAppearanceTitleLarge"
                                 android:textColor="?attr/colorOnPrimaryContainer"
                                 android:textStyle="bold" />
@@ -180,7 +180,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="6dp"
                             android:layout_weight="1"
-                            android:text="Apply now"
+                            android:text="@string/action_apply_now"
                             app:icon="@drawable/ic_image_check_outline" />
 
                         <com.google.android.material.button.MaterialButton
@@ -190,7 +190,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
-                            android:text="Use default" />
+                            android:text="@string/action_use_default" />
                     </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
@@ -218,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:text="Reads only the apps you choose. No account, no analytics."
+                android:text="@string/privacy_note"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
@@ -233,7 +233,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView style="@style/SectionTitle" android:text="Setup" />
+            <TextView style="@style/SectionTitle" android:text="@string/section_setup" />
 
             <TextView
                 android:id="@+id/setupStatus"
@@ -262,11 +262,11 @@
                 <!-- Notification access -->
                 <LinearLayout style="@style/ListRow">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_bell_ring_outline" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_bell_ring_outline" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Notification access" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_notification_access" />
 
                         <TextView android:id="@+id/permNotif" style="@style/RowSupport" />
                     </LinearLayout>
@@ -275,7 +275,7 @@
                         android:id="@+id/btnGrant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Grant" />
+                        android:text="@string/action_grant" />
                 </LinearLayout>
 
                 <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
@@ -283,11 +283,11 @@
                 <!-- Set wallpaper -->
                 <LinearLayout style="@style/ListRow">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_wallpaper" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_wallpaper" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Change wallpaper" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_change_wallpaper" />
 
                         <TextView android:id="@+id/permWallpaper" style="@style/RowSupport" />
                     </LinearLayout>
@@ -305,11 +305,11 @@
                 <!-- Battery -->
                 <LinearLayout style="@style/ListRow">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_battery_heart_variant" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_battery_heart_variant" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Run in background" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_run_in_background" />
 
                         <TextView android:id="@+id/bgBattery" style="@style/RowSupport" />
                     </LinearLayout>
@@ -325,7 +325,7 @@
                         android:id="@+id/btnBattery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Allow" />
+                        android:text="@string/action_allow" />
                 </LinearLayout>
 
                 <!-- Autostart (Xiaomi only) -->
@@ -339,15 +339,15 @@
 
                     <LinearLayout style="@style/ListRow">
 
-                        <ImageView style="@style/RowIcon" android:src="@drawable/ic_rocket_launch_outline" />
+                        <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_rocket_launch_outline" />
 
                         <LinearLayout style="@style/RowText">
 
-                            <TextView style="@style/RowTitle" android:text="Autostart" />
+                            <TextView style="@style/RowTitle" android:text="@string/row_autostart" />
 
                             <TextView
                                 style="@style/RowSupport"
-                                android:text="Xiaomi phones: turn on Autostart for MusicPaper." />
+                                android:text="@string/autostart_hint" />
                         </LinearLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -355,7 +355,7 @@
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Open" />
+                            android:text="@string/action_open" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -367,7 +367,7 @@
             android:layout_width="match_parent"
             android:layout_marginStart="4dp"
             android:layout_marginTop="32dp"
-            android:text="Music apps" />
+            android:text="@string/section_music_apps" />
 
         <TextView
             android:layout_width="match_parent"
@@ -375,7 +375,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="12dp"
-            android:text="Android gives notification access to the whole app, so MusicPaper ignores every app you don't tick. Local players appear here once they've played something."
+            android:text="@string/music_apps_hint"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -400,7 +400,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="12dp"
-            android:text="Wallpapers" />
+            android:text="@string/section_wallpapers" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -427,14 +427,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:background="?attr/colorSurfaceContainerHighest"
-                        android:contentDescription="Default lock screen wallpaper"
+                        android:contentDescription="@string/cd_default_wallpaper"
                         android:scaleType="centerCrop"
                         app:shapeAppearanceOverlay="@style/Shape.Preview" />
 
                     <TextView
                         style="@style/RowTitle"
                         android:layout_marginTop="14dp"
-                        android:text="Lock screen" />
+                        android:text="@string/label_lock_screen" />
 
                     <TextView
                         android:id="@+id/defaultHint"
@@ -452,14 +452,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Choose" />
+                        android:text="@string/action_choose" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRemoveDefault"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Remove" />
+                        android:text="@string/action_remove" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -482,14 +482,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:background="?attr/colorSurfaceContainerHighest"
-                        android:contentDescription="Home screen wallpaper"
+                        android:contentDescription="@string/cd_home_wallpaper"
                         android:scaleType="centerCrop"
                         app:shapeAppearanceOverlay="@style/Shape.Preview" />
 
                     <TextView
                         style="@style/RowTitle"
                         android:layout_marginTop="14dp"
-                        android:text="Home screen" />
+                        android:text="@string/label_home_screen" />
 
                     <TextView
                         android:id="@+id/homeHint"
@@ -507,14 +507,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Choose" />
+                        android:text="@string/action_choose" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRemoveHome"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Remove" />
+                        android:text="@string/action_remove" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -526,7 +526,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="12dp"
-            android:text="Style" />
+            android:text="@string/section_style" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/GroupCard"
@@ -549,11 +549,11 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="16dp">
 
-                    <TextView style="@style/RowTitle" android:text="Layout" />
+                    <TextView style="@style/RowTitle" android:text="@string/row_layout" />
 
                     <TextView
                         style="@style/RowSupport"
-                        android:text="How the cover sits on the lock screen. Previews are approximate." />
+                        android:text="@string/layout_hint" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -571,7 +571,7 @@
                         android:checkable="true"
                         android:clickable="true"
                         android:focusable="true"
-                        android:contentDescription="Classic layout"
+                        android:contentDescription="@string/cd_layout_classic"
                         app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
                         app:cardCornerRadius="20dp"
                         app:checkedIconTint="?attr/colorPrimary">
@@ -596,7 +596,7 @@
                                 style="@style/RowTitle"
                                 android:layout_marginTop="10dp"
                                 android:gravity="center"
-                                android:text="Classic" />
+                                android:text="@string/layout_classic" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -613,7 +613,7 @@
                         android:checkable="true"
                         android:clickable="true"
                         android:focusable="true"
-                        android:contentDescription="Square cover on a blurred background"
+                        android:contentDescription="@string/cd_layout_square"
                         app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
                         app:cardCornerRadius="20dp"
                         app:checkedIconTint="?attr/colorPrimary">
@@ -638,7 +638,7 @@
                                 style="@style/RowTitle"
                                 android:layout_marginTop="10dp"
                                 android:gravity="center"
-                                android:text="Square" />
+                                android:text="@string/layout_square" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
@@ -655,13 +655,13 @@
                             android:id="@+id/cbShowTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Show title" />
+                            android:text="@string/option_show_title" />
 
                         <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/cbShowArtist"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Show artist" />
+                            android:text="@string/option_show_artist" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -669,11 +669,11 @@
 
                 <LinearLayout style="@style/ListRow">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_animation_play_outline" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_animation_play_outline" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Animated covers" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_animated_covers" />
 
                         <TextView android:id="@+id/liveStatus" style="@style/RowSupport" />
                     </LinearLayout>
@@ -682,7 +682,7 @@
                         android:id="@+id/btnLive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Set" />
+                        android:text="@string/action_set" />
                 </LinearLayout>
 
                 <com.google.android.material.divider.MaterialDivider
@@ -694,31 +694,31 @@
                     style="@style/ListRow"
                     android:background="?attr/selectableItemBackground">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_fit_to_screen_outline" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_fit_to_screen_outline" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Fill the screen" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_fill_screen" />
 
-                        <TextView style="@style/RowSupport" android:text="Crops the sides of the cover" />
+                        <TextView style="@style/RowSupport" android:text="@string/fill_screen_hint" />
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/swFill"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="Fill the screen" />
+                        android:contentDescription="@string/row_fill_screen" />
                 </LinearLayout>
 
                 <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
 
                 <LinearLayout style="@style/ListRow">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_arrow_expand" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_arrow_expand" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Upscaling" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_upscaling" />
 
                         <TextView android:id="@+id/upscaleHint" style="@style/RowSupport" />
 
@@ -736,7 +736,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Simple" />
+                                android:text="@string/upscale_simple" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btnUpscaleAdvanced"
@@ -744,7 +744,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Advanced" />
+                                android:text="@string/upscale_advanced" />
                         </com.google.android.material.button.MaterialButtonToggleGroup>
                     </LinearLayout>
                 </LinearLayout>
@@ -756,20 +756,20 @@
                     style="@style/ListRow"
                     android:background="?attr/selectableItemBackground">
 
-                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_restore" />
+                    <ImageView style="@style/RowIcon" android:importantForAccessibility="no" android:src="@drawable/ic_restore" />
 
                     <LinearLayout style="@style/RowText">
 
-                        <TextView style="@style/RowTitle" android:text="Default when music stops" />
+                        <TextView style="@style/RowTitle" android:text="@string/row_revert" />
 
-                        <TextView style="@style/RowSupport" android:text="Show your default wallpaper again" />
+                        <TextView style="@style/RowSupport" android:text="@string/revert_hint" />
                     </LinearLayout>
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/swRevert"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="Default when music stops" />
+                        android:contentDescription="@string/row_revert" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

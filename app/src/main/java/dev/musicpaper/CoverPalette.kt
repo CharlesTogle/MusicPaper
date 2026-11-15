@@ -5,7 +5,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import androidx.appcompat.R.attr as AppCompatAttr
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.scale
+import com.google.android.material.R.attr as MaterialAttr
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.color.utilities.Hct
 import com.google.android.material.color.utilities.QuantizerCelebi
@@ -48,12 +51,12 @@ data class CoverPalette(
         fun brand(context: Context): CoverPalette = CoverPalette(
             heroStart = ContextCompat.getColor(context, R.color.hero_start),
             heroEnd = ContextCompat.getColor(context, R.color.hero_end),
-            onHero = attr(context, com.google.android.material.R.attr.colorOnPrimaryContainer),
-            accent = attr(context, androidx.appcompat.R.attr.colorPrimary),
-            onAccent = attr(context, com.google.android.material.R.attr.colorOnPrimary),
-            pill = attr(context, com.google.android.material.R.attr.colorSurfaceContainerLowest),
-            tonal = attr(context, com.google.android.material.R.attr.colorSecondaryContainer),
-            onTonal = attr(context, com.google.android.material.R.attr.colorOnSecondaryContainer),
+            onHero = attr(context, MaterialAttr.colorOnPrimaryContainer),
+            accent = attr(context, AppCompatAttr.colorPrimary),
+            onAccent = attr(context, MaterialAttr.colorOnPrimary),
+            pill = attr(context, MaterialAttr.colorSurfaceContainerLowest),
+            tonal = attr(context, MaterialAttr.colorSecondaryContainer),
+            onTonal = attr(context, MaterialAttr.colorOnSecondaryContainer),
         )
 
         /**
@@ -63,7 +66,7 @@ data class CoverPalette(
          */
         @SuppressLint("RestrictedApi")
         fun fromCover(cover: Bitmap, dark: Boolean): CoverPalette {
-            val small = Bitmap.createScaledBitmap(cover, SAMPLE_SIZE, SAMPLE_SIZE, true)
+            val small = cover.scale(SAMPLE_SIZE, SAMPLE_SIZE)
             val pixels = IntArray(small.width * small.height)
             small.getPixels(pixels, 0, small.width, 0, 0, small.width, small.height)
             if (small !== cover) small.recycle()

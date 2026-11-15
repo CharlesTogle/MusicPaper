@@ -15,11 +15,14 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.Typeface
+import android.os.Build
 import android.text.TextPaint
 import android.text.TextUtils
-import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.get
+import androidx.core.graphics.withClip
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -37,6 +40,9 @@ object WallpaperRenderer {
 
     /** Song text drawn over the bottom-left of a Square cover; a null line is left out. */
     data class Caption(val title: String?, val artist: String?)
+
+    /** The user's "Style" choices: [fill] applies to [Layout.CURRENT], [caption] to [Layout.SQUARE]. */
+    data class Style(val layout: Layout, val fill: Boolean, val caption: Caption?)
 
     /** Share of the screen given to the solid colour; the lock screen's media player box covers the seam. */
     private const val SPLIT = 0.40f
@@ -78,16 +84,14 @@ object WallpaperRenderer {
     fun render(
         context: Context,
         art: Bitmap,
-        layout: Layout,
-        fill: Boolean,
+        style: Style,
         landscape: Boolean,
         mode: Upscaler.Mode,
         cachedOnly: Boolean = false,
         cancelled: () -> Boolean = { false },
-        caption: Caption? = null,
     ): Bitmap? {
         val (width, height) = screenSize(context, landscape)
-        return render(context, art, layout, fill, width, height, mode, cachedOnly, cancelled, caption)
+        return render(context, art, style, width, height, mode, cachedOnly, cancelled)
     }
 
     /**
@@ -97,21 +101,19 @@ object WallpaperRenderer {
     fun render(
         context: Context,
         art: Bitmap,
-        layout: Layout,
-        fill: Boolean,
+        style: Style,
         width: Int,
         height: Int,
         mode: Upscaler.Mode,
         cachedOnly: Boolean = false,
         cancelled: () -> Boolean = { false },
-        caption: Caption? = null,
     ): Bitmap? {
         val upscale = { src: Rect, w: Int, h: Int ->
             Upscaler.scale(context, art, src, w, h, mode, cachedOnly, cancelled)
         }
         return when {
-            layout == Layout.SQUARE -> renderSquare(art, width, height, caption, upscale)
-            fill -> renderFill(art, width, height, upscale)
+            style.layout == Layout.SQUARE -> renderSquare(art, width, height, style.caption, upscale)
+            style.fill -> renderFill(art, width, height, upscale)
             else -> renderSplit(art, width, height, upscale)
         }
     }
@@ -119,7 +121,7 @@ object WallpaperRenderer {
     /** Cover cropped to fill the whole screen. */
     private fun renderFill(art: Bitmap, width: Int, height: Int, upscale: (Rect, Int, Int) -> Bitmap?): Bitmap? {
         val scaled = upscale(centerCrop(art, width, height), width, height) ?: return null
-        val out = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val out = createBitmap(width, height)
         Canvas(out).drawBitmap(scaled, null, Rect(0, 0, width, height), filterPaint())
         scaled.recycle()
         return out
@@ -138,7 +140,7 @@ object WallpaperRenderer {
         }
         val src = centerCrop(art, dst.width().toInt(), dst.height().toInt())
         val scaled = upscale(src, dst.width().roundToInt(), dst.height().roundToInt()) ?: return null
-        val out = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val out = createBitmap(width, height)
         val canvas = Canvas(out)
         val edge = edgeColor(art, src, fromLeft = landscape)
         canvas.drawColor(edge)
@@ -169,7 +171,7 @@ object WallpaperRenderer {
         val size = (min(width, height) * if (landscape) SQUARE_LANDSCAPE else SQUARE_PORTRAIT).roundToInt()
         val cover = upscale(centerCrop(art, size, size), size, size) ?: return null
 
-        val out = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val out = createBitmap(width, height)
         val canvas = Canvas(out)
         val blurred = blurredBackdrop(art, width, height)
         canvas.drawBitmap(blurred, null, Rect(0, 0, width, height), filterPaint())
@@ -202,7 +204,7 @@ object WallpaperRenderer {
         val src = centerCrop(art, width, height)
         val w = BLUR_WIDTH
         val h = max(1, (w * height.toFloat() / width).roundToInt())
-        val small = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val small = createBitmap(w, h)
         Canvas(small).drawBitmap(art, src, Rect(0, 0, w, h), Paint(Paint.FILTER_BITMAP_FLAG))
         val pixels = IntArray(w * h)
         val scratch = IntArray(pixels.size)
@@ -233,7 +235,11 @@ object WallpaperRenderer {
         val colours = BitmapShader(line, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
             setLocalMatrix(
                 Matrix().apply {
-                    if (landscape) setScale(1f, height.toFloat() / line.height) else setScale(width.toFloat() / line.width, 1f)
+                    if (landscape) {
+                        setScale(1f, height.toFloat() / line.height)
+                    } else {
+                        setScale(width.toFloat() / line.width, 1f)
+                    }
                 },
             )
         }
@@ -338,18 +344,25 @@ object WallpaperRenderer {
         if (lines.isEmpty()) return
 
         val fadeTop = cover.bottom - size * CAPTION_FADE
+        val scrimColours = intArrayOf(
+            Color.TRANSPARENT,
+            Color.argb(CAPTION_SCRIM_ALPHA / 2, 0, 0, 0),
+            Color.argb(CAPTION_SCRIM_ALPHA, 0, 0, 0),
+        )
         val fade = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG).apply {
             shader = LinearGradient(
-                0f, fadeTop, 0f, cover.bottom,
-                intArrayOf(Color.TRANSPARENT, Color.argb(CAPTION_SCRIM_ALPHA / 2, 0, 0, 0), Color.argb(CAPTION_SCRIM_ALPHA, 0, 0, 0)),
+                0f,
+                fadeTop,
+                0f,
+                cover.bottom,
+                scrimColours,
                 floatArrayOf(0f, 0.45f, 1f),
                 Shader.TileMode.CLAMP,
             )
         }
-        canvas.save()
-        canvas.clipPath(Path().apply { addRoundRect(cover, corner, corner, Path.Direction.CW) })
-        canvas.drawRect(cover.left, fadeTop, cover.right, cover.bottom, fade)
-        canvas.restore()
+        canvas.withClip(Path().apply { addRoundRect(cover, corner, corner, Path.Direction.CW) }) {
+            drawRect(cover.left, fadeTop, cover.right, cover.bottom, fade)
+        }
 
         // Lay the lines out upwards from the bottom padding, so the last line sits on the bottom edge.
         val pad = size * CAPTION_PADDING
@@ -363,7 +376,7 @@ object WallpaperRenderer {
         }
     }
 
-    private fun captionPaint(size: Float, style: Int, colour: Int) = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+    private fun captionPaint(size: Float, style: Int, colour: Int): TextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = size
         typeface = Typeface.create(Typeface.SANS_SERIF, style)
         color = colour
@@ -386,7 +399,7 @@ object WallpaperRenderer {
         val step = max(1, max(strip.width(), strip.height()) / EDGE_SAMPLES)
         for (y in strip.top until strip.bottom step step) {
             for (x in strip.left until strip.right step step) {
-                val c = art.getPixel(x, y)
+                val c = art[x, y]
                 r += Color.red(c)
                 g += Color.green(c)
                 b += Color.blue(c)
@@ -404,7 +417,7 @@ object WallpaperRenderer {
     }
 
     fun renderPlain(src: Bitmap, width: Int, height: Int): Bitmap {
-        val out = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val out = createBitmap(width, height)
         val dst = Rect(0, 0, width, height)
         Canvas(out).drawBitmap(src, centerCrop(src, width, height), dst, Paint(Paint.FILTER_BITMAP_FLAG))
         return out

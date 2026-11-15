@@ -19,6 +19,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.R.attr as AppCompatAttr
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.R.attr as MaterialAttr
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
@@ -124,7 +125,7 @@ class SetupSection(private val activity: AppCompatActivity) {
     private fun askBatteryExemption() {
         val direct = Intent(
             Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-            Uri.parse("package:${activity.packageName}"),
+            "package:${activity.packageName}".toUri(),
         )
         runCatching { activity.startActivity(direct) }
             .recoverCatching { activity.startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }

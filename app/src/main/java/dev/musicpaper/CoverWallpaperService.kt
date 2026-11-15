@@ -90,10 +90,8 @@ class CoverWallpaperService : WallpaperService() {
             val h = height
             val art = LiveCover.art
             val context = this@CoverWallpaperService
-            val layout = Prefs.layout(context)
-            val fill = Prefs.isFillEnabled(context)
+            val style = Prefs.renderStyle(context, LiveCover.title, LiveCover.artist)
             val mode = Prefs.upscaleMode(context)
-            val caption = Prefs.caption(context, LiveCover.title, LiveCover.artist)
             val seq = ++renderSeq
             WallpaperApplier.worker.execute {
                 var sharpLater = false
@@ -101,21 +99,21 @@ class CoverWallpaperService : WallpaperService() {
                     if (art == null) return@runCatching defaultFrame(w, h)
                     // Advanced: use the cached sharp frame if there is one, else show the simple one first.
                     val sharp = if (mode == Upscaler.Mode.ADVANCED) {
-                        WallpaperRenderer.render(context, art, layout, fill, w, h, mode, cachedOnly = true, caption = caption)
+                        WallpaperRenderer.render(context, art, style, w, h, mode, cachedOnly = true)
                     } else {
                         null
                     }
                     sharpLater = mode == Upscaler.Mode.ADVANCED && sharp == null
-                    sharp ?: WallpaperRenderer.render(context, art, layout, fill, w, h, Upscaler.Mode.SIMPLE, caption = caption)
+                    sharp ?: WallpaperRenderer.render(context, art, style, w, h, Upscaler.Mode.SIMPLE)
                 }.onFailure { Log.w(TAG, "live render failed", it) }.getOrNull()
                 show(seq, next, fade)
                 if (art != null && sharpLater) {
                     WallpaperApplier.sharpener.execute {
                         val stale = { seq != renderSeq }
                         if (stale()) return@execute
+                        val advanced = Upscaler.Mode.ADVANCED
                         val sharp = runCatching {
-                            val advanced = Upscaler.Mode.ADVANCED
-                            WallpaperRenderer.render(context, art, layout, fill, w, h, advanced, cancelled = stale, caption = caption)
+                            WallpaperRenderer.render(context, art, style, w, h, advanced, cancelled = stale)
                         }.getOrNull()
                         show(seq, sharp, fade = true) // soft-to-sharp crossfade
                     }

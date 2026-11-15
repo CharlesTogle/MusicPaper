@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaMetadata
 import android.media.session.MediaController
-import android.net.Uri
 import android.service.notification.StatusBarNotification
+import androidx.core.net.toUri
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -46,7 +46,7 @@ object MediaReader {
 
     /** Loads a cover URI. Can touch the network, so call it off the main thread. */
     fun loadUri(context: Context, uri: String): Bitmap? = runCatching {
-        val parsed = Uri.parse(uri)
+        val parsed = uri.toUri()
         when (parsed.scheme) {
             "http", "https" -> download(uri)
             "content", "android.resource", "file" ->

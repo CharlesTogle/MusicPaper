@@ -39,55 +39,46 @@ object WallpaperApplier {
             done?.invoke(false)
             return
         }
-        LiveCover.show(art, nowPlaying.title, nowPlaying.artist) // always keep it current, so a newly started live wallpaper has it
+        // Always keep it current, so a newly started live wallpaper has it.
+        LiveCover.show(art, nowPlaying.title, nowPlaying.artist)
         if (liveOnLock(app)) {
             // The live wallpaper draws it and crossfades; no static image needed.
             Prefs.setLockShowingCover(app, true)
             done?.invoke(true)
             return
         }
-        val layout = Prefs.layout(app)
-        val fill = Prefs.isFillEnabled(app)
+        val style = Prefs.renderStyle(app, nowPlaying.title, nowPlaying.artist)
         val mode = Prefs.upscaleMode(app)
         val landscape = isLandscape(app)
-        val caption = Prefs.caption(app, nowPlaying.title, nowPlaying.artist)
         val seq = applySeq.incrementAndGet()
         worker.execute {
             var sharpLater = false
             val ok = runCatching {
                 // Advanced: use the sharp version if it's cached, otherwise show the simple one now.
                 val sharp = if (mode == Upscaler.Mode.ADVANCED) {
-                    WallpaperRenderer.render(app, art, layout, fill, landscape, mode, cachedOnly = true, caption = caption)
+                    WallpaperRenderer.render(app, art, style, landscape, mode, cachedOnly = true)
                 } else {
                     null
                 }
                 sharpLater = mode == Upscaler.Mode.ADVANCED && sharp == null
                 val frame = sharp
-                    ?: WallpaperRenderer.render(app, art, layout, fill, landscape, Upscaler.Mode.SIMPLE, caption = caption)
+                    ?: WallpaperRenderer.render(app, art, style, landscape, Upscaler.Mode.SIMPLE)
                     ?: error("simple render returned no image")
                 setLock(app, frame)
             }.onFailure { Log.w(TAG, "Could not set lock screen wallpaper", it) }.isSuccess
             if (ok) Prefs.setLockShowingCover(app, true)
             main.post { done?.invoke(ok) }
-            if (ok && sharpLater) sharpen(app, art, layout, fill, landscape, caption, seq)
+            if (ok && sharpLater) sharpen(app, art, style, landscape, seq)
         }
     }
 
     /** Runs the advanced upscale off the main worker, then swaps it in if the song hasn't changed meanwhile. */
-    private fun sharpen(
-        app: Context,
-        art: Bitmap,
-        layout: WallpaperRenderer.Layout,
-        fill: Boolean,
-        landscape: Boolean,
-        caption: WallpaperRenderer.Caption?,
-        seq: Int,
-    ) {
+    private fun sharpen(app: Context, art: Bitmap, style: WallpaperRenderer.Style, landscape: Boolean, seq: Int) {
         val stale = { applySeq.get() != seq }
         sharpener.execute {
             if (stale()) return@execute
             val sharp = runCatching {
-                WallpaperRenderer.render(app, art, layout, fill, landscape, Upscaler.Mode.ADVANCED, cancelled = stale, caption = caption)
+                WallpaperRenderer.render(app, art, style, landscape, Upscaler.Mode.ADVANCED, cancelled = stale)
             }.getOrNull() ?: return@execute
             worker.execute {
                 if (stale()) {

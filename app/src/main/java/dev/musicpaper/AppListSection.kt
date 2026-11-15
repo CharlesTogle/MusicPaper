@@ -1,12 +1,12 @@
 package dev.musicpaper
 
 import android.content.Intent
-import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.checkbox.MaterialCheckBox
 
 /** The "Selected apps" list: one checkbox per music app; only ticked apps are ever read. */
@@ -71,7 +71,7 @@ class AppListSection(private val activity: AppCompatActivity) {
                 .forEach { found += it.activityInfo.packageName }
         }
         runCatching {
-            val view = Intent(Intent.ACTION_VIEW).setDataAndType(Uri.parse(SAMPLE_AUDIO_URI), "audio/*")
+            val view = Intent(Intent.ACTION_VIEW).setDataAndType(SAMPLE_AUDIO_URI.toUri(), "audio/*")
             packageManager.queryIntentActivities(view, 0).forEach { found += it.activityInfo.packageName }
         }
         found -= activity.packageName

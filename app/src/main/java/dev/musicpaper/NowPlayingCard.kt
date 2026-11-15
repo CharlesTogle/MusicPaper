@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
 import java.util.concurrent.Executors
 
@@ -133,7 +135,7 @@ class NowPlayingCard(
         activity.findViewById<TextView>(R.id.nowLabel).apply {
             backgroundTintList = ColorStateList.valueOf(palette.pill)
             setTextColor(palette.accent)
-            compoundDrawableTintList = ColorStateList.valueOf(palette.accent)
+            TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(palette.accent))
         }
         activity.findViewById<ImageView>(R.id.art).backgroundTintList = ColorStateList.valueOf(palette.pill)
         activity.findViewById<MaterialButton>(R.id.btnApply).apply {
@@ -156,7 +158,7 @@ class NowPlayingCard(
         val oldBitmap = (old as? BitmapDrawable)?.bitmap
         if (cover != null && cover === oldBitmap) return
         if (cover != null && old is BitmapDrawable) {
-            val fade = TransitionDrawable(arrayOf(old, BitmapDrawable(activity.resources, cover)))
+            val fade = TransitionDrawable(arrayOf(old, cover.toDrawable(activity.resources)))
             fade.isCrossFadeEnabled = true
             view.scaleType = ImageView.ScaleType.CENTER_CROP
             view.imageTintList = null

@@ -11,16 +11,20 @@ import android.os.Looper
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.ImageView
+import androidx.annotation.IdRes
 import androidx.appcompat.R.attr as AppCompatAttr
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.createBitmap
 import com.google.android.material.R.attr as MaterialAttr
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import java.util.concurrent.Executors
+import java.util.concurrent.RejectedExecutionException
 
 /**
- * The Classic / Square layout cards in "Style", each with a phone-shaped preview of the lock screen made from
- * the playing cover (or a sample when nothing plays), with a mock clock and media notification on top. "Fill the screen" only applies to Classic, so it hides.
+ * The Classic / Square layout cards in "Style". Each has a phone-shaped preview of the lock screen made from
+ * the playing cover (or a sample when nothing plays), with a mock clock and media notification on top.
+ * "Fill the screen" only applies to Classic, so it hides while Square is picked.
  */
 class LayoutPicker(private val activity: AppCompatActivity) {
     private val previewWorker = Executors.newSingleThreadExecutor()
@@ -32,10 +36,10 @@ class LayoutPicker(private val activity: AppCompatActivity) {
     /** Kept as one instance so [NowPlayingStore.remove] finds it again. */
     val onNowPlaying: (NowPlaying?) -> Unit = { renderPreviews(it) }
 
-    private val cards
+    private val cards: Map<WallpaperRenderer.Layout, MaterialCardView>
         get() = mapOf(
-            WallpaperRenderer.Layout.CURRENT to activity.findViewById<MaterialCardView>(R.id.layoutCurrent),
-            WallpaperRenderer.Layout.SQUARE to activity.findViewById<MaterialCardView>(R.id.layoutSquare),
+            WallpaperRenderer.Layout.CURRENT to activity.findViewById(R.id.layoutCurrent),
+            WallpaperRenderer.Layout.SQUARE to activity.findViewById(R.id.layoutSquare),
         )
 
     fun bind() {
@@ -46,12 +50,21 @@ class LayoutPicker(private val activity: AppCompatActivity) {
                 select(layout)
             }
         }
-        bindCaptionBox(R.id.cbShowTitle, Prefs.showTitle(activity)) { Prefs.setShowTitle(activity, it) }
-        bindCaptionBox(R.id.cbShowArtist, Prefs.showArtist(activity)) { Prefs.setShowArtist(activity, it) }
+        bindCaptionBox(R.id.cbShowTitle, Prefs.isTitleShown(activity)) { Prefs.setTitleShown(activity, it) }
+        bindCaptionBox(R.id.cbShowArtist, Prefs.isArtistShown(activity)) { Prefs.setArtistShown(activity, it) }
         renderPreviews(null, force = true)
     }
 
-    private fun bindCaptionBox(id: Int, initial: Boolean, save: (Boolean) -> Unit) {
+    /** The Classic preview depends on "Fill the screen", so redraw when it changes. */
+    fun onFillChanged() {
+        renderPreviews(previewFor, force = true)
+    }
+
+    fun release() {
+        previewWorker.shutdownNow()
+    }
+
+    private fun bindCaptionBox(@IdRes id: Int, initial: Boolean, save: (Boolean) -> Unit) {
         activity.findViewById<CompoundButton>(id).apply {
             isChecked = initial
             setOnCheckedChangeListener { _, checked ->
@@ -61,23 +74,16 @@ class LayoutPicker(private val activity: AppCompatActivity) {
         }
     }
 
-    /** The Classic preview depends on "Fill the screen", so redraw when it changes. */
-    fun onFillChanged() = renderPreviews(previewFor, force = true)
-
-    fun release() {
-        previewWorker.shutdownNow()
-    }
-
     private fun select(selected: WallpaperRenderer.Layout) {
         cards.forEach { (layout, card) ->
             card.isChecked = layout == selected
-            card.strokeWidth = activity.resources.getDimensionPixelSize(
-                if (card.isChecked) R.dimen.layout_card_stroke_checked else R.dimen.layout_card_stroke,
-            )
-            card.strokeColor = MaterialColors.getColor(
-                card,
-                if (card.isChecked) AppCompatAttr.colorPrimary else MaterialAttr.colorOutlineVariant,
-            )
+            val (stroke, colour) = if (card.isChecked) {
+                R.dimen.layout_card_stroke_checked to AppCompatAttr.colorPrimary
+            } else {
+                R.dimen.layout_card_stroke to MaterialAttr.colorOutlineVariant
+            }
+            card.strokeWidth = activity.resources.getDimensionPixelSize(stroke)
+            card.strokeColor = MaterialColors.getColor(card, colour)
         }
         val fillApplies = selected == WallpaperRenderer.Layout.CURRENT
         activity.findViewById<View>(R.id.rowFill).setVisibleOrGone(fillApplies)
@@ -91,17 +97,20 @@ class LayoutPicker(private val activity: AppCompatActivity) {
         previewFor = nowPlaying
         val cover = nowPlaying?.art
         val seq = ++previewSeq
-        val fill = Prefs.isFillEnabled(activity)
-        val caption = if (cover == null) {
-            Prefs.caption(activity, SAMPLE_TITLE, SAMPLE_ARTIST)
+        val style = if (cover == null) {
+            Prefs.renderStyle(
+                activity,
+                activity.getString(R.string.sample_title),
+                activity.getString(R.string.sample_artist),
+            )
         } else {
-            Prefs.caption(activity, nowPlaying.title, nowPlaying.artist)
+            Prefs.renderStyle(activity, nowPlaying.title, nowPlaying.artist)
         }
         val (screenWidth, screenHeight) = WallpaperRenderer.screenSize(activity)
         val aspect = screenWidth.toFloat() / screenHeight
-        val views = mapOf(
-            WallpaperRenderer.Layout.CURRENT to activity.findViewById<ImageView>(R.id.layoutCurrentPreview),
-            WallpaperRenderer.Layout.SQUARE to activity.findViewById<ImageView>(R.id.layoutSquarePreview),
+        val views = mapOf<WallpaperRenderer.Layout, ImageView>(
+            WallpaperRenderer.Layout.CURRENT to activity.findViewById(R.id.layoutCurrentPreview),
+            WallpaperRenderer.Layout.SQUARE to activity.findViewById(R.id.layoutSquarePreview),
         )
         // The view height is fixed in the layout; match the width to the screen's shape.
         views.values.forEach { view ->
@@ -110,27 +119,32 @@ class LayoutPicker(private val activity: AppCompatActivity) {
         val app = activity.applicationContext
         val height = PREVIEW_HEIGHT_PX
         val width = (height * aspect).toInt()
-        runCatching {
+        try {
             previewWorker.execute {
                 val art = cover ?: sampleCover
                 val previews = runCatching {
                     views.mapValues { (layout, _) ->
-                        WallpaperRenderer.render(app, art, layout, fill, width, height, Upscaler.Mode.SIMPLE, caption = caption)
+                        val layoutStyle = style.copy(layout = layout)
+                        WallpaperRenderer.render(app, art, layoutStyle, width, height, Upscaler.Mode.SIMPLE)
                             ?.also { LockScreenMock.draw(app, it, art) }
                     }
                 }.getOrNull() ?: return@execute
                 mainHandler.post {
                     if (seq != previewSeq || activity.isDestroyed) return@post
-                    views.forEach { (layout, view) -> view.showPreview(previews[layout], R.drawable.ic_music_note_outline) }
+                    views.forEach { (layout, view) ->
+                        view.showPreview(previews[layout], R.drawable.ic_music_note_outline)
+                    }
                 }
             }
-        } // rejected after release(): nothing to show anyway
+        } catch (e: RejectedExecutionException) {
+            // Only after release(), when there's nothing left to show it on.
+        }
     }
 
     /** A stand-in cover for the previews when nothing is playing: a soft brand-coloured gradient with a disc. */
     private fun sampleCover(): Bitmap {
         val size = SAMPLE_SIZE.toFloat()
-        val bitmap = Bitmap.createBitmap(SAMPLE_SIZE, SAMPLE_SIZE, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(SAMPLE_SIZE, SAMPLE_SIZE)
         val canvas = Canvas(bitmap)
         val brand = CoverPalette.brand(activity)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -147,7 +161,5 @@ class LayoutPicker(private val activity: AppCompatActivity) {
     private companion object {
         const val PREVIEW_HEIGHT_PX = 400
         const val SAMPLE_SIZE = 256
-        const val SAMPLE_TITLE = "Song title"
-        const val SAMPLE_ARTIST = "Artist"
     }
 }
