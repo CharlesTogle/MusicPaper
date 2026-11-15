@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Material 3 theme with a fixed brand scheme: indigo (trust) with a rose accent (creativity). -->
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+<resources>
+    <!--
+        Material 3 theme with a fixed brand scheme: indigo (trust) with a rose accent (creativity).
+        Everything except the navigation bar, which differs by API level (see AppTheme below and in values-v27).
+    -->
+    <style name="Base.AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/md_primary</item>
         <item name="colorOnPrimary">@color/md_on_primary</item>
         <item name="colorPrimaryContainer">@color/md_primary_container</item>
@@ -36,10 +39,15 @@
         <item name="colorPrimaryInverse">@color/md_inverse_primary</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">@bool/light_bars</item>
-        <!-- API 27+; Android 8.0 ignores it and keeps its default navigation bar. -->
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/light_bars</item>
+    </style>
+
+    <!--
+        Android 8.0 (API 26) can't draw dark navigation buttons, so its white ones sit on a dark scrim
+        (transparent in dark mode, where the background is already dark). API 27+ is in values-v27.
+    -->
+    <style name="AppTheme" parent="Base.AppTheme">
+        <item name="android:navigationBarColor">@color/nav_bar_scrim</item>
     </style>
 
     <!-- Section heading above each card. -->

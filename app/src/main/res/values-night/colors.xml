@@ -32,4 +32,6 @@
     <color name="md_inverse_primary">#4F4DBF</color>
     <color name="hero_start">#2E2B8A</color>
     <color name="hero_end">#5E2047</color>
+    <!-- Dark mode: the background is already dark enough for white buttons. -->
+    <color name="nav_bar_scrim">@android:color/transparent</color>
 </resources>

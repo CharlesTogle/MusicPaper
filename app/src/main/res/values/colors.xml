@@ -34,4 +34,6 @@
     <color name="hero_end">#FFD8EA</color>
     <color name="brand_start">#4F4DBF</color>
     <color name="brand_end">#B04A82</color>
+    <!-- Behind the white navigation buttons on Android 8.0 (light mode). -->
+    <color name="nav_bar_scrim">#80000000</color>
 </resources>
