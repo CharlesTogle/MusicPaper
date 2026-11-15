@@ -8,11 +8,15 @@
     <!-- Exposed record with a transparent groove -->
     <path
         android:fillColor="#000000"
-        android:fillType="evenOdd"
-        android:pathData="M66,28.88 A21,21 0,0 1,66,69.12 L66,62.75 A15,15 0,0 0,66,35.25 Z M66,39.83 A11,11 0,0 1,66,58.17 Z" />
+        android:pathData="M73.4,42.78 A19,19 0,0 1,73.4,71.22 L73.4,65.14 A15,15 0,0 0,73.4,48.86 Z" />
 
-    <!-- Sleeve; transparent gap separates the peel -->
+    <!-- Sleeve; transparent gap separates the curl -->
     <path
         android:fillColor="#000000"
-        android:pathData="M37,36 H54 Q62,36 62,44 V58 H53 Q43,58 43,68 V77 H37 Q29,77 29,69 V44 Q29,36 37,36 Z M48,77 V68 Q48,63 53,63 H62 Q60,74 48,77 Z" />
+        android:pathData="M32,32 H68 Q72,32 72,36 V56 C56.3,58.3 52,67.2 52.5,76 H32 Q28,76 28,72 V36 Q28,32 32,32 Z" />
+
+    <!-- Folded corner -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M72,57.5 L54.2,76 C53.6,68.5 57.5,60 72,57.5 Z" />
 </vector>

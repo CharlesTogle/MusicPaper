@@ -1,5 +1,6 @@
 package dev.musicpaper
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -15,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.materialswitch.MaterialSwitch
 import java.io.File
 import java.util.concurrent.Executors
@@ -71,6 +73,9 @@ class MainActivity : AppCompatActivity() {
         bindUpscale()
         showDefaultWallpaper()
         showHomeWallpaper()
+
+        // Once per launch, not again on rotation.
+        if (savedInstanceState == null) UpdateChecker.check(BuildConfig.VERSION_NAME, ::showUpdateDialog)
     }
 
     override fun onResume() {
@@ -92,6 +97,21 @@ class MainActivity : AppCompatActivity() {
         layoutPicker.release()
         thumbnailWorker.shutdownNow()
         super.onDestroy()
+    }
+
+    // --- Updates -----------------------------------------------------------------------------
+
+    private fun showUpdateDialog(latest: String) {
+        if (isFinishing || isDestroyed) return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.update_title)
+            .setMessage(getString(R.string.update_message, latest, BuildConfig.VERSION_NAME))
+            .setPositiveButton(R.string.update_action) { _, _ ->
+                runCatching { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(UpdateChecker.RELEASES_PAGE))) }
+                    .onFailure { toast(R.string.toast_no_browser) }
+            }
+            .setNegativeButton(R.string.update_later, null)
+            .show()
     }
 
     // --- Default and home wallpapers ---------------------------------------------------------

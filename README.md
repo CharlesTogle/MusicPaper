@@ -75,13 +75,13 @@ Without a default image, MusicPaper restores the lock screen to match the home s
 
 ## Permissions and privacy
 
-MusicPaper requires no account and includes no analytics. Wallpaper rendering and image enhancement run on the device. Network access supports artwork downloads when a player supplies an image URL.
+MusicPaper requires no account and includes no analytics. Wallpaper rendering and image enhancement run on the device. Network access supports artwork downloads when a player supplies an image URL, and a check for a newer GitHub release when the app opens (no personal or device data is sent).
 
 | Access | Purpose | Approval |
 |---|---|---|
 | `SET_WALLPAPER` | Update and restore wallpaper. | Android grants this at installation. |
 | Notification access | Read media sessions and cover artwork from selected players. | Enable it in Android settings. Android grants app-wide notification access; MusicPaper filters processing to the players you select. |
-| `INTERNET` | Download cover artwork from URLs supplied by a player. | Android grants this at installation. |
+| `INTERNET` | Download cover artwork from URLs supplied by a player, and check GitHub for a newer release when the app opens. | Android grants this at installation. |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Request an exemption from battery optimisation to support background operation. | Approve the request through **Setup → Run in background**. |
 
 ## Building from source

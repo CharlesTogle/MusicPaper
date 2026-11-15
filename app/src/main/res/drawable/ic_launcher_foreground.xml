@@ -1,34 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Vinyl record, partially exposed -->
-    <path
-        android:fillColor="#E2DFFF"
-        android:pathData="M81,49 A21,21 0,1 0,39,49 A21,21 0,1 0,81,49 Z" />
+    <!-- Vinyl record behind the sleeve -->
+    <path android:pathData="M79.8,57 A19,19 0,1 0,41.8,57 A19,19 0,1 0,79.8,57 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="60.8"
+                android:centerY="57"
+                android:gradientRadius="19"
+                android:startColor="#2E2B3E"
+                android:endColor="#14121D" />
+        </aapt:attr>
+    </path>
 
-    <!-- Broad record groove -->
+    <!-- Grooves -->
     <path
-        android:fillColor="#4F4DBF"
-        android:fillType="evenOdd"
-        android:pathData="M76,49 A16,16 0,1 0,44,49 A16,16 0,1 0,76,49 Z M73,49 A13,13 0,1 0,47,49 A13,13 0,1 0,73,49 Z" />
+        android:strokeColor="#38354C"
+        android:strokeWidth="0.35"
+        android:pathData="M77.3,57 A16.5,16.5 0,1 0,44.3,57 A16.5,16.5 0,1 0,77.3,57 Z M75,57 A14.2,14.2 0,1 0,46.6,57 A14.2,14.2 0,1 0,75,57 Z M72.8,57 A12,12 0,1 0,48.8,57 A12,12 0,1 0,72.8,57 Z" />
 
-    <!-- Record label and spindle hole -->
-    <path
-        android:fillColor="#FFD8EA"
-        android:fillType="evenOdd"
-        android:pathData="M67,49 A7,7 0,1 0,53,49 A7,7 0,1 0,67,49 Z M62,49 A2,2 0,1 0,58,49 A2,2 0,1 0,62,49 Z" />
+    <!-- Sleeve: blurred dusk artwork, bottom-right corner folded back -->
+    <path android:pathData="M32,32 H68 Q72,32 72,36 V57.5 L54.2,76 H32 Q28,76 28,72 V36 Q28,32 32,32 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="50"
+                android:startY="32"
+                android:endX="50"
+                android:endY="76">
+                <item android:offset="0" android:color="#4A49B4" />
+                <item android:offset="0.3" android:color="#7A55A8" />
+                <item android:offset="0.55" android:color="#C9708F" />
+                <item android:offset="0.68" android:color="#B0638F" />
+                <item android:offset="0.8" android:color="#4D4AB2" />
+                <item android:offset="1" android:color="#4644AC" />
+            </gradient>
+        </aapt:attr>
+    </path>
 
-    <!-- Album sleeve becoming wallpaper -->
-    <path
-        android:fillColor="#B04A82"
-        android:pathData="M37,36 H54 Q62,36 62,44 V62 L47,77 H37 Q29,77 29,69 V44 Q29,36 37,36 Z" />
+    <!-- Sun glow -->
+    <path android:pathData="M32,32 H68 Q72,32 72,36 V57.5 L54.2,76 H32 Q28,76 28,72 V36 Q28,32 32,32 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="52"
+                android:centerY="58"
+                android:gradientRadius="13"
+                android:startColor="#D9F6BFB0"
+                android:endColor="#00F6BFB0" />
+        </aapt:attr>
+    </path>
 
-    <!-- Lifted corner -->
+    <!-- Shadow under the curl -->
     <path
-        android:fillColor="#FFD8EA"
-        android:pathData="M47,77 V68 Q47,62 53,62 H62 Q60,74 47,77 Z" />
+        android:fillColor="#592A1A5C"
+        android:pathData="M70.8,56.7 L53,75.6 C52.4,67.7 56.3,59.2 70.8,56.7 Z" />
+
+    <!-- Folded corner -->
+    <path android:pathData="M72,57.5 L54.2,76 C53.6,68.5 57.5,60 72,57.5 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="56"
+                android:startY="72"
+                android:endX="68"
+                android:endY="60">
+                <item android:offset="0" android:color="#F3C9E1" />
+                <item android:offset="0.5" android:color="#F7E3F2" />
+                <item android:offset="1" android:color="#E2D5FA" />
+            </gradient>
+        </aapt:attr>
+    </path>
 </vector>
