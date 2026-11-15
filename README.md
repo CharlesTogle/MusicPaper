@@ -75,7 +75,7 @@ Without a default image, MusicPaper restores the lock screen to match the home s
 
 ## Permissions and privacy
 
-MusicPaper requires no account and includes no analytics. Wallpaper rendering and image enhancement run on the device. Network access supports artwork downloads when a player supplies an image URL.
+MusicPaper requires no account and includes no analytics. Wallpaper rendering and image enhancement run on the device. Network access supports artwork downloads when a player supplies an image URL, and a check for a newer GitHub release when the app opens (no personal or device data is sent).
 
 | Access | Purpose | Approval |
 |---|---|---|
