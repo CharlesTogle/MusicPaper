@@ -67,6 +67,21 @@ Under **Style → Animated covers**, select **Set** to open Android's live wallp
 
 To keep album artwork on the lock screen, choose a home screen image under **Wallpapers → Home screen**. MusicPaper uses that image to replace its live wallpaper on the home screen.
 
+### Lock screen themes
+
+MusicPaper sets covers in one of two ways, and they differ in how they work with your phone's lock screen theming (clock styles, widgets, and similar options).
+
+| Mode | How covers are set | Lock screen themes |
+|---|---|---|
+| **Still image** (default) | Each cover is set as a static lock screen wallpaper, the same path as **Apply now**. | Compatible. |
+| **Animated covers** | MusicPaper's live wallpaper draws the covers itself. | Not supported. The phone cannot theme a live wallpaper, so some phones reset the lock screen to their default style. |
+
+If your lock screen uses theming, such as a custom clock style or widgets, use still images and leave **Animated covers** off. Otherwise, either mode works.
+
+To return to still images, set any other wallpaper in your phone's settings; MusicPaper resumes setting covers as a static image.
+
+On Xiaomi, Redmi, and POCO phones (HyperOS), wallpaper effects such as depth effect turn off whenever an app other than Xiaomi's own sets the lock screen wallpaper, so they are unavailable in either mode.
+
 ### Upscaling
 
 Choose a mode under **Style → Upscaling**.
