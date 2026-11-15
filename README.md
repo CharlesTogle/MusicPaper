@@ -17,6 +17,15 @@ and puts your own wallpaper back when the music stops.
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/memories.jpg" width="200" alt="Lock screen showing the heart-of-roses cover of Memories by Conan Gray">
+  <img src="docs/screenshots/back-to-friends.jpg" width="200" alt="Lock screen showing the cover of back to friends by sombr">
+  <img src="docs/screenshots/chest-pain.jpg" width="200" alt="Lock screen showing the cover of Chest Pain (I Love) by Malcolm Todd">
+  <img src="docs/screenshots/i-love-you-so.jpg" width="200" alt="Lock screen showing the handwritten cover of I Love You So (Acoustic) by The Walters">
+</p>
+
 ## ✨ Features
 
 - **Works with any player.** Spotify, YouTube, YouTube Music, local music players: anything that publishes an Android media session.
