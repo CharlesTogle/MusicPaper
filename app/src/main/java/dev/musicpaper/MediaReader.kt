@@ -9,12 +9,15 @@ import android.media.MediaMetadata
 import android.media.session.MediaController
 import android.service.notification.StatusBarNotification
 import androidx.core.net.toUri
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
 /** Pulls title, artist and cover art out of a media session, falling back to the player's notification. */
 object MediaReader {
     private const val TIMEOUT_MS = 5_000
+    private const val MAX_DOWNLOAD_BYTES = 10 * 1024 * 1024
 
     fun read(context: Context, controller: MediaController, notification: StatusBarNotification?): NowPlaying? {
         val metadata = controller.metadata
@@ -60,9 +63,23 @@ object MediaReader {
         connection.connectTimeout = TIMEOUT_MS
         connection.readTimeout = TIMEOUT_MS
         return try {
-            connection.inputStream.use(BitmapFactory::decodeStream)
+            if (connection.contentLengthLong > MAX_DOWNLOAD_BYTES) return null
+            val bytes = connection.inputStream.use { it.readAtMost(MAX_DOWNLOAD_BYTES) } ?: return null
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
         } finally {
             connection.disconnect()
+        }
+    }
+
+    /** The whole stream, or null if it's longer than [limit]. Content-Length can be missing or wrong. */
+    private fun InputStream.readAtMost(limit: Int): ByteArray? {
+        val out = ByteArrayOutputStream()
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        while (true) {
+            val read = read(buffer)
+            if (read < 0) return out.toByteArray()
+            if (out.size() + read > limit) return null
+            out.write(buffer, 0, read)
         }
     }
 
