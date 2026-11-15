@@ -52,7 +52,7 @@ Layout previews approximate the result; the device's lock screen controls may ov
 
 ### Animated covers
 
-Under **Style → Animated covers**, select **Set** to open Android's live wallpaper preview, then confirm MusicPaper as the wallpaper.
+Under **Style → Animated covers**, select **Set** to open Android's live wallpaper preview, then confirm MusicPaper as the wallpaper. Choose **Home screen and lock screen** when prompted.
 
 To keep album artwork on the lock screen, choose a home screen image under **Wallpapers → Home screen**. MusicPaper uses that image to replace its live wallpaper on the home screen.
 
