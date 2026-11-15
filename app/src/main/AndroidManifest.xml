@@ -3,7 +3,8 @@
 
     <!-- 1. Set (lock screen) wallpaper. Install-time permission, no dialog needed. -->
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
-    <!-- Only used to download cover art when a player gives a web URL instead of an image (YouTube sometimes does). -->
+    <!-- Downloads cover art when a player gives a web URL instead of an image (YouTube sometimes does),
+         and asks GitHub for the latest release version when the app is opened. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Lets the app ask to be left out of battery optimisation, so it keeps running after being cleared from recents. -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />

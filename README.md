@@ -81,7 +81,7 @@ MusicPaper requires no account and includes no analytics. Wallpaper rendering an
 |---|---|---|
 | `SET_WALLPAPER` | Update and restore wallpaper. | Android grants this at installation. |
 | Notification access | Read media sessions and cover artwork from selected players. | Enable it in Android settings. Android grants app-wide notification access; MusicPaper filters processing to the players you select. |
-| `INTERNET` | Download cover artwork from URLs supplied by a player. | Android grants this at installation. |
+| `INTERNET` | Download cover artwork from URLs supplied by a player, and check GitHub for a newer release when the app opens. | Android grants this at installation. |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Request an exemption from battery optimisation to support background operation. | Approve the request through **Setup → Run in background**. |
 
 ## Building from source

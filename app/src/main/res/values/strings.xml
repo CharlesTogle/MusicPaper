@@ -13,6 +13,13 @@
     <string name="toast_lock_reset">Lock screen set to default</string>
     <string name="toast_lock_reset_failed">Could not change the lock screen</string>
 
+    <!-- Updates -->
+    <string name="update_title">Update available</string>
+    <string name="update_message">MusicPaper %1$s is out. You have %2$s.</string>
+    <string name="update_action">Update</string>
+    <string name="update_later">Later</string>
+    <string name="toast_no_browser">No browser found to open the download page</string>
+
     <!-- Default and home wallpapers -->
     <string name="toast_no_image_picker">No image picker found</string>
     <string name="toast_image_unreadable">Couldn\'t read that image</string>
