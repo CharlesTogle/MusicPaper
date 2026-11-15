@@ -182,9 +182,13 @@ object WallpaperApplier {
                 val upright = rotateUpright(decoded, exifRotation(app, uri))
 
                 val tmp = File(file.path + ".tmp")
-                tmp.outputStream().use { upright.compress(Bitmap.CompressFormat.JPEG, IMPORT_QUALITY, it) }
-                check(tmp.renameTo(file)) { "could not save" }
-                upright.recycle()
+                try {
+                    tmp.outputStream().use { upright.compress(Bitmap.CompressFormat.JPEG, IMPORT_QUALITY, it) }
+                    check(tmp.renameTo(file)) { "could not save" }
+                } finally {
+                    tmp.delete() // already gone if the rename worked
+                    upright.recycle()
+                }
             }.onFailure { Log.w(TAG, "Could not import image", it) }.isSuccess
             main.post { done(ok) }
         }

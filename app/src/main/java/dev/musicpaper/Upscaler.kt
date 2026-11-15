@@ -209,13 +209,20 @@ object Upscaler {
 
     private fun saveCache(file: File, bitmap: Bitmap) {
         val tmp = File(file.path + ".tmp")
-        tmp.outputStream().use { bitmap.compress(Bitmap.CompressFormat.JPEG, CACHE_QUALITY, it) }
-        tmp.renameTo(file)
+        try {
+            tmp.outputStream().use { bitmap.compress(Bitmap.CompressFormat.JPEG, CACHE_QUALITY, it) }
+            tmp.renameTo(file)
+        } finally {
+            tmp.delete() // already gone if the rename worked
+        }
+        val cached = file.parentFile?.listFiles().orEmpty()
+        // Leftovers from saves that failed before this cleanup existed.
+        cached.filter { it.name.endsWith(".tmp") }.forEach { it.delete() }
         // Keep the newest few.
-        file.parentFile?.listFiles { f -> f.name.endsWith(".jpg") }
-            ?.sortedByDescending { it.lastModified() }
-            ?.drop(CACHE_FILES)
-            ?.forEach { it.delete() }
+        cached.filter { it.name.endsWith(".jpg") }
+            .sortedByDescending { it.lastModified() }
+            .drop(CACHE_FILES)
+            .forEach { it.delete() }
     }
 
     // --- Lanczos ----------------------------------------------------------------------------
