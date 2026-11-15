@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:clipToPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="32dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_brand"
+                android:importantForAccessibility="no"
+                android:padding="11dp"
+                android:src="@drawable/ic_music_note_outline"
+                app:tint="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="The cover of what you're playing, on your lock screen"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Now playing hero -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+
+            <FrameLayout
+                android:id="@+id/heroBg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_hero">
+
+                <!-- Decorative note in the corner -->
+                <ImageView
+                    android:id="@+id/heroNote"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="-36dp"
+                    android:layout_marginEnd="-44dp"
+                    android:alpha="0.08"
+                    android:importantForAccessibility="no"
+                    android:rotation="-14"
+                    android:src="@drawable/ic_music_note_outline"
+                    app:tint="?attr/colorOnPrimaryContainer" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/nowLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_pill"
+                        android:backgroundTint="?attr/colorSurfaceContainerLowest"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="Now playing"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textColor="?attr/colorPrimary"
+                        app:drawableStartCompat="@drawable/ic_music_note_outline"
+                        app:drawableTint="?attr/colorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/art"
+                            android:layout_width="112dp"
+                            android:layout_height="112dp"
+                            android:background="?attr/colorSurfaceContainerLowest"
+                            android:contentDescription="Album cover"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/Shape.Cover" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="Nothing playing"
+                                android:textAppearance="?attr/textAppearanceTitleLarge"
+                                android:textColor="?attr/colorOnPrimaryContainer"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/artist"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textAppearance="?attr/textAppearanceBodyLarge"
+                                android:textColor="?attr/colorOnPrimaryContainer" />
+
+                            <TextView
+                                android:id="@+id/source"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:alpha="0.72"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textAppearance="?attr/textAppearanceLabelLarge"
+                                android:textColor="?attr/colorOnPrimaryContainer" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnApply"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1"
+                            android:text="Apply now"
+                            app:icon="@drawable/ic_image_check_outline" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnReset"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:text="Use default" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Privacy note -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_shield_check_outline"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="Reads only the apps you choose. No account, no analytics."
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+
+        <!-- Setup -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView style="@style/SectionTitle" android:text="Setup" />
+
+            <TextView
+                android:id="@+id/setupStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                android:textAppearance="?attr/textAppearanceLabelMedium" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/GroupCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <!-- Notification access -->
+                <LinearLayout style="@style/ListRow">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_bell_ring_outline" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Notification access" />
+
+                        <TextView android:id="@+id/permNotif" style="@style/RowSupport" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGrant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Grant" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
+
+                <!-- Set wallpaper -->
+                <LinearLayout style="@style/ListRow">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_wallpaper" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Change wallpaper" />
+
+                        <TextView android:id="@+id/permWallpaper" style="@style/RowSupport" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/permWallpaperIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="4dp"
+                        android:importantForAccessibility="no" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
+
+                <!-- Battery -->
+                <LinearLayout style="@style/ListRow">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_battery_heart_variant" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Run in background" />
+
+                        <TextView android:id="@+id/bgBattery" style="@style/RowSupport" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/bgBatteryIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="4dp"
+                        android:importantForAccessibility="no" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBattery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Allow" />
+                </LinearLayout>
+
+                <!-- Autostart (Xiaomi only) -->
+                <LinearLayout
+                    android:id="@+id/rowAutostart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
+
+                    <LinearLayout style="@style/ListRow">
+
+                        <ImageView style="@style/RowIcon" android:src="@drawable/ic_rocket_launch_outline" />
+
+                        <LinearLayout style="@style/RowText">
+
+                            <TextView style="@style/RowTitle" android:text="Autostart" />
+
+                            <TextView
+                                style="@style/RowSupport"
+                                android:text="Xiaomi phones: turn on Autostart for MusicPaper." />
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAutostart"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Open" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Apps -->
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_width="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:text="Music apps" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:text="Android gives notification access to the whole app, so MusicPaper ignores every app you don't tick. Local players appear here once they've played something."
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/GroupCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/appList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Wallpapers -->
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_width="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="12dp"
+            android:text="Wallpapers" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <!-- Lock screen when no music -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/GroupCard"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/defaultPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="?attr/colorSurfaceContainerHighest"
+                        android:contentDescription="Default lock screen wallpaper"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/Shape.Preview" />
+
+                    <TextView
+                        style="@style/RowTitle"
+                        android:layout_marginTop="14dp"
+                        android:text="Lock screen" />
+
+                    <TextView
+                        android:id="@+id/defaultHint"
+                        style="@style/RowSupport"
+                        android:textAppearance="?attr/textAppearanceBodySmall" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPickDefault"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Choose" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRemoveDefault"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Remove" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Home screen -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/GroupCard"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/homePreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="?attr/colorSurfaceContainerHighest"
+                        android:contentDescription="Home screen wallpaper"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/Shape.Preview" />
+
+                    <TextView
+                        style="@style/RowTitle"
+                        android:layout_marginTop="14dp"
+                        android:text="Home screen" />
+
+                    <TextView
+                        android:id="@+id/homeHint"
+                        style="@style/RowSupport"
+                        android:textAppearance="?attr/textAppearanceBodySmall" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPickHome"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Choose" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRemoveHome"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Remove" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- Style -->
+        <TextView
+            style="@style/SectionTitle"
+            android:layout_width="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="12dp"
+            android:text="Style" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/GroupCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp">
+
+                    <TextView style="@style/RowTitle" android:text="Layout" />
+
+                    <TextView
+                        style="@style/RowSupport"
+                        android:text="How the cover sits on the lock screen. Previews are approximate." />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutCurrent"
+                        style="@style/Widget.Material3.CardView.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Classic layout"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+                        app:cardCornerRadius="20dp"
+                        app:checkedIconTint="?attr/colorPrimary">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/layoutCurrentPreview"
+                                android:layout_width="96dp"
+                                android:layout_height="200dp"
+                                android:background="?attr/colorSurfaceContainerHighest"
+                                android:importantForAccessibility="no"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/Shape.Preview" />
+
+                            <TextView
+                                style="@style/RowTitle"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="Classic" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                        <Space
+                            android:layout_width="12dp"
+                            android:layout_height="0dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutSquare"
+                        style="@style/Widget.Material3.CardView.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Square cover on a blurred background"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+                        app:cardCornerRadius="20dp"
+                        app:checkedIconTint="?attr/colorPrimary">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/layoutSquarePreview"
+                                android:layout_width="96dp"
+                                android:layout_height="200dp"
+                                android:background="?attr/colorSurfaceContainerHighest"
+                                android:importantForAccessibility="no"
+                                android:scaleType="centerCrop"
+                                app:shapeAppearanceOverlay="@style/Shape.Preview" />
+
+                            <TextView
+                                style="@style/RowTitle"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="Square" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/squareOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/cbShowTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Show title" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/cbShowArtist"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Show artist" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
+
+                <LinearLayout style="@style/ListRow">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_animation_play_outline" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Animated covers" />
+
+                        <TextView android:id="@+id/liveStatus" style="@style/RowSupport" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Set" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/dividerFill"
+                    style="@style/RowDivider" />
+
+                <LinearLayout
+                    android:id="@+id/rowFill"
+                    style="@style/ListRow"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_fit_to_screen_outline" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Fill the screen" />
+
+                        <TextView style="@style/RowSupport" android:text="Crops the sides of the cover" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/swFill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Fill the screen" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
+
+                <LinearLayout style="@style/ListRow">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_arrow_expand" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Upscaling" />
+
+                        <TextView android:id="@+id/upscaleHint" style="@style/RowSupport" />
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/upscaleGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnUpscaleSimple"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Simple" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnUpscaleAdvanced"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Advanced" />
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider style="@style/RowDivider" />
+
+                <LinearLayout
+                    android:id="@+id/rowRevert"
+                    style="@style/ListRow"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView style="@style/RowIcon" android:src="@drawable/ic_restore" />
+
+                    <LinearLayout style="@style/RowText">
+
+                        <TextView style="@style/RowTitle" android:text="Default when music stops" />
+
+                        <TextView style="@style/RowSupport" android:text="Show your default wallpaper again" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/swRevert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Default when music stops" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

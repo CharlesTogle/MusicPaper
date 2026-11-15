@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Vinyl record, partially exposed -->
+    <path
+        android:fillColor="#E2DFFF"
+        android:pathData="M81,49 A21,21 0,1 0,39,49 A21,21 0,1 0,81,49 Z" />
+
+    <!-- Broad record groove -->
+    <path
+        android:fillColor="#4F4DBF"
+        android:fillType="evenOdd"
+        android:pathData="M76,49 A16,16 0,1 0,44,49 A16,16 0,1 0,76,49 Z M73,49 A13,13 0,1 0,47,49 A13,13 0,1 0,73,49 Z" />
+
+    <!-- Record label and spindle hole -->
+    <path
+        android:fillColor="#FFD8EA"
+        android:fillType="evenOdd"
+        android:pathData="M67,49 A7,7 0,1 0,53,49 A7,7 0,1 0,67,49 Z M62,49 A2,2 0,1 0,58,49 A2,2 0,1 0,62,49 Z" />
+
+    <!-- Album sleeve becoming wallpaper -->
+    <path
+        android:fillColor="#B04A82"
+        android:pathData="M37,36 H54 Q62,36 62,44 V62 L47,77 H37 Q29,77 29,69 V44 Q29,36 37,36 Z" />
+
+    <!-- Lifted corner -->
+    <path
+        android:fillColor="#FFD8EA"
+        android:pathData="M47,77 V68 Q47,62 53,62 H62 Q60,74 47,77 Z" />
+</vector>

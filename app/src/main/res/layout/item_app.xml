@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One music app in the "Music apps" list. The whole row toggles the checkbox. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListRow"
+    android:minHeight="64dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:id="@+id/appLabel"
+        style="@style/RowTitle"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/appCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
