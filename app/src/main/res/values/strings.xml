@@ -43,7 +43,7 @@
     <string name="action_manage">Manage</string>
     <string name="action_grant">Grant</string>
     <string name="live_on">On. Covers fade between songs.</string>
-    <string name="live_off">Set MusicPaper as your live wallpaper to fade between songs.</string>
+    <string name="live_off">Set MusicPaper as your live wallpaper to fade between songs. Choose Home screen and lock screen when prompted.</string>
     <string name="action_change">Change</string>
     <string name="action_set">Set</string>
     <string name="toast_no_live_picker">This phone has no live wallpaper picker</string>

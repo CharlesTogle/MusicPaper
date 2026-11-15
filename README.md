@@ -8,11 +8,22 @@ MusicPaper is an Android application that displays the current track's album art
 
 ## Screenshots
 
+**Classic layout**
+
 <p align="center">
   <img src="docs/screenshots/memories.jpg" width="200" alt="Lock screen showing the album artwork for Memories by Conan Gray">
   <img src="docs/screenshots/back-to-friends.jpg" width="200" alt="Lock screen showing the album artwork for back to friends by sombr">
   <img src="docs/screenshots/chest-pain.jpg" width="200" alt="Lock screen showing the album artwork for Chest Pain (I Love) by Malcolm Todd">
   <img src="docs/screenshots/i-love-you-so.jpg" width="200" alt="Lock screen showing the album artwork for I Love You So (Acoustic) by The Walters">
+</p>
+
+**Square layout** with title and artist
+
+<p align="center">
+  <img src="docs/screenshots/the-cure.jpg" width="200" alt="Lock screen showing a square album cover for the cure by Olivia Rodrigo over a blurred background, with the title and artist on the cover">
+  <img src="docs/screenshots/love.jpg" width="200" alt="Lock screen showing a square album cover for love. by wave to earth over a blurred background, with the title and artist on the cover">
+  <img src="docs/screenshots/too-deep-to-turn-back.jpg" width="200" alt="Lock screen showing a square album cover for TOO DEEP TO TURN BACK by Daniel Caesar over a blurred background, with the title and artist on the cover">
+  <img src="docs/screenshots/indecision.jpg" width="200" alt="Lock screen showing a square album cover for Indecision by Rex Orange County and Daniel Caesar over a blurred background, with the title and artist on the cover">
 </p>
 
 ## Features
@@ -52,7 +63,7 @@ Layout previews approximate the result; the device's lock screen controls may ov
 
 ### Animated covers
 
-Under **Style → Animated covers**, select **Set** to open Android's live wallpaper preview, then confirm MusicPaper as the wallpaper.
+Under **Style → Animated covers**, select **Set** to open Android's live wallpaper preview, then confirm MusicPaper as the wallpaper. Choose **Home screen and lock screen** when prompted.
 
 To keep album artwork on the lock screen, choose a home screen image under **Wallpapers → Home screen**. MusicPaper uses that image to replace its live wallpaper on the home screen.
 
